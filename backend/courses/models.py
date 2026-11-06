@@ -1,7 +1,4 @@
-from django.db import models
-
-# Create your models here.
-
+# Модели курсов и тарифов
 from django.db import models
 
 from content.models import ExamType, Teacher
@@ -28,16 +25,20 @@ class Course(models.Model):
 
 
 class Tariff(models.Model):
+    # Курс необязателен: тарифы на главной (Стандарт, Про, Про+) общие для всех
     course = models.ForeignKey(
-        Course, verbose_name="Курс", on_delete=models.CASCADE, related_name="tariffs",
+        Course, verbose_name="Курс", on_delete=models.CASCADE,
+        related_name="tariffs", null=True, blank=True,
     )
     name = models.CharField("Название тарифа", max_length=100)
-    price_per_month = models.PositiveIntegerField("Цена в месяц, ₽")
-    description = models.TextField("Что входит", blank=True)
+    price_per_month = models.PositiveIntegerField("Цена от, ₽ в месяц")
+    features = models.TextField("Что входит", blank=True, help_text="Один пункт на строку")
+    order = models.PositiveIntegerField("Порядок", default=0)
 
     class Meta:
+        ordering = ["order"]
         verbose_name = "Тариф"
         verbose_name_plural = "Тарифы"
 
     def __str__(self):
-        return f"{self.course.title} — {self.name}"
+        return self.name

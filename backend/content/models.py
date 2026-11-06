@@ -1,6 +1,5 @@
-from django.db import models
-
-# Create your models here.
+# Модели публичного контента: преподаватели, отзывы, вопросы FAQ.
+# Каждый класс = таблица в базе, каждое поле = столбец.
 from django.db import models
 
 
@@ -13,7 +12,7 @@ class Teacher(models.Model):
     name = models.CharField("Имя", max_length=100)
     subject = models.CharField("Предмет", max_length=100)
     photo = models.ImageField("Фото", upload_to="teachers/", blank=True)
-    bio = models.TextField("О преподавателе", blank=True)
+    bio = models.TextField("Факты о преподавателе", blank=True, help_text="Один факт на строку")
     experience = models.CharField("Опыт", max_length=200, blank=True)
     typical_score = models.CharField("Обычные баллы учеников", max_length=100, blank=True)
     social_link = models.URLField("Ссылка на соцсеть", blank=True)
@@ -47,7 +46,7 @@ class Review(models.Model):
         verbose_name_plural = "Отзывы"
 
     def __str__(self):
-        return f"{self.author_name}"
+        return self.author_name
 
 
 class FAQ(models.Model):
