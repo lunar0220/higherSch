@@ -1,96 +1,251 @@
-/* ===== Подключение шрифта из дизайна ===== */
+/* ===== Шрифт из дизайна ===== */
 @font-face {
   font-family: "Architexture";
   src: url("/fonts/Architexture.ttf") format("truetype");
 }
 
-/* ===== Цвета из дизайна. Меняем здесь, меняется на всём сайте ===== */
+/* ===== Цвета и сетка из дизайна. Меняем здесь, меняется на всём сайте ===== */
 :root {
   --bg: #f5f0ee;     /* фон страницы */
   --navy: #1b2b48;   /* тёмно-синий: текст, подвал */
   --blue: #9dbdd8;   /* голубой: кнопки */
   --pink: #f5c8d4;   /* розовый: большие блоки */
-  --gray: #ddd9d6;   /* серый: заглушки под фото */
+  --gray: #ddd9d6;   /* серый: заглушки */
+
+  /* Сетка из Figma: 12 колонок, поля 25, промежуток 20 */
+  --margin: 40px;
+  --gutter: 20px;
 }
 
-/* ===== Общие правила для всех страниц ===== */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* ===== Общие правила ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: "Architexture", sans-serif;
   background: var(--bg);
   color: var(--navy);
-  font-synthesis: none; /* не рисовать «жирный» шрифт искусственно */
+  font-synthesis: none;
+  line-height: 1.3;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+button { font-family: inherit; }
 
-ul {
-  list-style: none;
-}
-
-/* Контейнер: ограничивает ширину содержимого и центрирует его */
+/* ===== Сетка ===== */
+/* .container — это сетка из 12 колонок на всю ширину окна, с полями по краям.
+   Левое поле совпадает с логотипом в шапке, правое — с кнопкой «Войти».
+   По умолчанию каждый блок внутри занимает все 12 колонок;
+   ниже для нужных блоков указано, какие колонки они занимают (grid-column: с / по). */
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  padding: 0 var(--margin);
 }
+.container > * { grid-column: 1 / -1; }
 
-/* ===== Кнопки. Три цвета, как в дизайне ===== */
+.section { margin-top: 120px; }
+.status { margin-top: 40px; }
+
+/* Заголовки: цвет выбирается классом title--blue / title--pink / title--navy */
+.title { font-size: clamp(40px, 6vw, 88px); line-height: 1; font-weight: normal; }
+.title--blue { color: var(--blue); }
+.title--pink { color: var(--pink); }
+.title--navy { color: var(--navy); }
+
+/* Заголовки блоков стоят в колонках 2–11, как в макете */
+.section > .title { grid-column: 2 / 12; }
+
+/* Серый прямоугольник — место под фото */
+.placeholder { background: var(--gray); aspect-ratio: 4 / 3; width: 100%; }
+
+/* Иллюстрации и логотипы-картинки */
+.illustration { width: 100%; height: auto; display: block; }
+
+/* ===== Кнопки ===== */
 .btn {
   display: inline-block;
   padding: 12px 24px;
   border: none;
-  font-family: inherit;
   font-size: 16px;
   cursor: pointer;
+  text-align: center;
 }
 .btn--blue { background: var(--blue); color: var(--navy); }
 .btn--pink { background: var(--pink); color: var(--navy); }
 .btn--navy { background: var(--navy); color: var(--bg); }
+.btn--big { padding: 20px 56px; font-size: 24px; }
+.btn--wide { width: 100%; padding: 20px; font-size: 20px; }
+.btn:disabled { opacity: 0.6; cursor: default; }
 
-/* ===== Шапка ===== */
+/* ===== Шапка: логотип слева, меню по центру, «Войти» справа ===== */
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px;
+  padding: 20px var(--margin);
 }
-.header__logo { font-size: 32px; }
+.header__logo { justify-self: start; }
+.header__logo img { height: 40px; width: auto; display: block; }
 .header__nav { display: flex; gap: 40px; }
 .header__nav a.active { border-bottom: 2px solid var(--navy); }
+.header > .btn { justify-self: end; }
 
-/* ===== Подвал ===== */
-.footer {
-  background: var(--navy);
-  color: var(--bg);
-  padding: 40px 24px;
-  margin-top: 80px;
+/* ===== Первый экран: текст в колонках 1–6, картинка в 8–12 ===== */
+.hero { margin-top: 40px; align-items: center; }
+.hero > div { grid-column: 1 / 7; }
+.hero > .illustration { grid-column: 8 / 13; }
+.hero__subtitle { margin: 16px 0 32px; font-size: 20px; }
+
+/* ===== Большой логотип: колонки 1–6, текст — 7–12 ===== */
+.brand { align-items: end; }
+.brand__logo { grid-column: 1 / 7; }
+.brand__logo img { width: 100%; height: auto; display: block; }
+.brand__text { grid-column: 7 / 13; font-size: 18px; max-width: 420px; }
+
+/* ===== Розовый блок на всю ширину ===== */
+.pink-block {
+  background: var(--pink);
+  padding: 40px var(--margin);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: center;
 }
-.footer__columns {
+.pink-block > h2 { grid-column: 1 / 7; }
+.pink-block > p { grid-column: 7 / 13; font-size: 18px; }
+
+/* ===== Как проходит обучение: текст и картинка в колонках 4–9 ===== */
+.how > .title, .how__tabs { text-align: center; grid-column: 1 / -1; }
+.how__tabs { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 32px 0 16px; }
+.how__tab { background: none; border: none; font-size: 18px; color: var(--blue); cursor: pointer; padding-bottom: 4px; }
+.how__tab--active { color: var(--navy); border-bottom: 2px solid var(--navy); }
+.how__text { grid-column: 4 / 10; text-align: center; margin-bottom: 32px; font-size: 20px; min-height: 52px; }
+.how__image { grid-column: 4 / 10; }
+
+/* ===== Тарифы: три карточки по 4 колонки ===== */
+.tariffs { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: var(--gutter); margin-top: 48px; align-items: stretch; }
+.tariff-col { display: flex; flex-direction: column; gap: 16px; }
+.tariff { flex: 1; padding: 24px; }
+.tariff h3 { font-size: 28px; font-weight: normal; }
+.tariff__price { margin: 4px 0 16px; }
+.tariff__features { list-style: disc; padding-left: 20px; display: grid; gap: 8px; }
+.tariff--navy { background: var(--navy); color: var(--bg); }
+.tariff--blue { background: var(--blue); }
+.tariff--pink { background: var(--pink); }
+
+/* ===== Команда: розовый блок на всю ширину ===== */
+.team {
+  background: var(--pink);
+  margin-top: 48px;
+  padding: 32px var(--margin);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: start;
+}
+.team__left { grid-column: 1 / 4; }
+.team__photo { grid-column: 4 / 9; display: flex; justify-content: center; }
+.team__info { grid-column: 9 / 13; }
+.team__exams { display: flex; gap: 8px; margin-bottom: 24px; }
+.team__exam { background: none; border: none; font-size: 20px; padding: 4px 8px; cursor: pointer; color: var(--navy); }
+.team__exam--active { background: var(--blue); }
+.team__subjects { display: grid; gap: 8px; }
+.team__subject { background: none; border: none; font-size: 20px; padding: 4px 8px; cursor: pointer; text-align: left; color: var(--navy); }
+.team__subject--active { background: var(--blue); }
+.team__photo img { max-width: 100%; max-height: 360px; object-fit: cover; }
+.team__avatar { width: 240px; height: 300px; background: var(--gray); border-radius: 120px 120px 0 0; }
+.team__info h3 { font-size: 28px; font-weight: normal; color: var(--blue); margin-bottom: 16px; }
+.team__facts { list-style: disc; padding-left: 20px; display: grid; gap: 8px; margin-bottom: 24px; }
+
+/* ===== Отзывы: три карточки по 4 колонки ===== */
+.reviews { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: var(--gutter); row-gap: var(--gutter); margin-top: 32px; }
+.review { background: var(--pink); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
+.review__author { font-size: 14px; }
+
+/* ===== FAQ: колонки 2–11 ===== */
+.faq { grid-column: 2 / 12; display: grid; gap: 16px; margin-top: 32px; }
+.faq__question {
+  width: 100%;
+  background: var(--blue);
+  border: none;
+  padding: 20px 24px;
+  font-size: 20px;
+  text-align: left;
+  color: var(--navy);
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
-  gap: 40px;
-  margin-top: 32px;
 }
-.footer__column li { margin-top: 12px; }
-.footer__title { font-size: 18px; }
+.faq__answer { padding: 16px 24px; font-size: 18px; }
 
-/* ===== Страница «Скоро здесь появится…» ===== */
-.soon {
-  min-height: 50vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  text-align: center;
+/* ===== Подвал ===== */
+.footer { background: var(--navy); color: var(--bg); padding: 40px 0; margin-top: 120px; }
+.footer__logo { width: 280px; max-width: 100%; height: auto; display: block; }
+.footer__columns { display: flex; justify-content: space-between; gap: 40px; margin-top: 32px; }
+.footer__column li { margin-top: 12px; }
+.footer__title { font-size: 18px; font-weight: normal; }
+
+/* ===== Заглушка «в разработке» ===== */
+.soon { min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; }
+.soon h1 { font-size: 48px; font-weight: normal; }
+
+/* ===== Окно заявки ===== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(27, 43, 72, 0.6);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; padding: 16px;
 }
-.soon h1 { font-size: 48px; color: var(--navy); }
+.modal { position: relative; background: var(--bg); padding: 32px; width: min(480px, 100%); max-height: 90vh; overflow-y: auto; }
+.modal h2 { font-weight: normal; font-size: 32px; margin-bottom: 24px; }
+.modal p { margin-bottom: 16px; }
+.modal__close { position: absolute; top: 8px; right: 16px; background: none; border: none; font-size: 32px; cursor: pointer; color: var(--navy); }
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.field input, .field select, .field textarea {
+  padding: 12px; border: 1px solid var(--navy); background: #fff;
+  font-family: inherit; font-size: 16px; color: var(--navy);
+}
+.field input.invalid { border-color: #b3261e; }
+.field__hint { font-size: 14px; }
+.field__error { color: #b3261e; font-size: 14px; }
+.error-msg { color: #b3261e; }
+
+/* ===== Мобильная версия: всё в одну колонку ===== */
+@media (max-width: 800px) {
+  .container { grid-template-columns: 1fr; }
+  .section > .title, .hero > div, .hero > .illustration, .brand__logo, .brand__text,
+  .how__text, .how__image, .faq { grid-column: 1 / -1; }
+
+  .pink-block, .team { grid-template-columns: 1fr; row-gap: 24px; }
+  .pink-block > h2, .pink-block > p, .team__left, .team__photo, .team__info { grid-column: 1 / -1; }
+  .tariffs, .reviews { grid-template-columns: 1fr; row-gap: 24px; }
+
+  .header { grid-template-columns: 1fr auto; row-gap: 12px; }
+  .header__nav { grid-column: 1 / -1; order: 3; justify-content: center; gap: 24px; }
+  .footer__columns { flex-direction: column; }
+  .section { margin-top: 72px; }
+}
+
+/* ===== Помощник для разработки: показать сетку из Figma =====
+   Включить: в консоли браузера выполнить  document.body.classList.toggle("show-grid")  */
+body.show-grid::after {
+  content: "";
+  position: fixed;
+  top: 0; bottom: 0;
+  left: var(--margin); right: var(--margin);
+  pointer-events: none;
+  z-index: 999;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(255, 0, 80, 0.15) 0,
+    rgba(255, 0, 80, 0.15) calc((100% - 11 * var(--gutter)) / 12),
+    transparent calc((100% - 11 * var(--gutter)) / 12),
+    transparent calc((100% - 11 * var(--gutter)) / 12 + var(--gutter))
+  );
+}
+
+/* ===== Абзацы в ответах FAQ ===== */
+.faq__answer { display: grid; gap: 12px; }
+.faq__lead { font-size: 20px; }

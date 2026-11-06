@@ -1,12 +1,15 @@
 // Шапка сайта: логотип, меню и кнопка «Войти».
-// NavLink — это ссылка, которая не перезагружает страницу
+// NavLink — ссылка, которая не перезагружает страницу
 // и сама подсвечивает текущий раздел (класс "active").
 import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
     <header className="header">
-      <Link to="/" className="header__logo">Выше ↗</Link>
+      <Link to="/" className="header__logo">
+        {/* Картинки лежат в папке public/images */}
+        <img src="/images/logo-dark.png" alt="Выше" />
+      </Link>
 
       <nav className="header__nav">
         <NavLink to="/oge">ОГЭ</NavLink>
