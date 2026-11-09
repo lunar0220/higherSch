@@ -1,5 +1,3 @@
-# Команда заполняет базу тестовыми данными: python manage.py seed
-# ВНИМАНИЕ: перед заполнением удаляет старые преподавателей, отзывы, FAQ, курсы и тарифы.
 from django.core.management.base import BaseCommand
 
 from content.models import FAQ, Review, Teacher
@@ -16,7 +14,6 @@ class Command(BaseCommand):
         Review.objects.all().delete()
         FAQ.objects.all().delete()
 
-        # --- Преподаватели: (имя, предмет, стаж, экзамены) ---
         people = [
             ("Анна Петрова", "Русский язык", 9, "ege,oge"),
             ("Дмитрий Орлов", "Математика", 7, "ege,oge"),
@@ -47,7 +44,7 @@ class Command(BaseCommand):
                 social_link="https://t.me/example", exam_types=exams, order=i,
             )
 
-        # --- Отзывы ---
+
         Review.objects.create(author_name="Алина", exam_type="ege", score="92 балла",
                               text="Занималась полгода, результат превзошёл ожидания.")
         Review.objects.create(author_name="Дмитрий", exam_type="ege", score="85 баллов",
@@ -55,7 +52,7 @@ class Command(BaseCommand):
         Review.objects.create(author_name="Мама Софии", exam_type="oge", score="5 по предмету",
                               text="Дочь стала увереннее, спасибо преподавателям.")
 
-        # --- FAQ (пустой exam_type = вопросы для главной) ---
+
         FAQ.objects.create(question="Что такое Выше?", exam_type="", order=1,
                            answer="Онлайн-школа подготовки к ОГЭ и ЕГЭ: маршрут от стартовой точки до пробного экзамена.")
         FAQ.objects.create(question="Чем Выше лучше репетитора или самоподготовки?", exam_type="", order=2,
@@ -69,7 +66,7 @@ class Command(BaseCommand):
         FAQ.objects.create(question="Сколько длится подготовка к ОГЭ?", exam_type="oge", order=1,
                            answer="Обычно от 4 до 6 месяцев.")
 
-        # --- Курсы ---
+
         Course.objects.create(title="Математика ЕГЭ", exam_type="ege", teacher=teachers["Математика"],
                               description="Полный курс подготовки к ЕГЭ по математике.",
                               lessons_count=60, duration="9 месяцев")
@@ -80,7 +77,7 @@ class Command(BaseCommand):
                               description="Курс подготовки к ОГЭ по русскому языку.",
                               lessons_count=36, duration="6 месяцев")
 
-        # --- Общие тарифы из дизайна главной страницы ---
+
         Tariff.objects.create(
             name="Стандарт", price_per_month=3990, order=1,
             features="Диагностика и персональный план\n"

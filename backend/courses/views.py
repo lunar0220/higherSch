@@ -17,5 +17,4 @@ class CourseList(ListAPIView):
 
 class TariffList(ListAPIView):
     serializer_class = TariffSerializer
-    # Только общие тарифы (без привязки к курсу): те, что на главной
     queryset = Tariff.objects.filter(course__isnull=True)

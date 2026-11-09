@@ -1,11 +1,8 @@
-# Команда обновляет вопросы и ответы FAQ для главной страницы: python manage.py update_faq
-# Остальные данные (тарифы, преподаватели, отзывы) она не трогает.
-# Первый абзац каждого ответа — главная мысль, остальные абзацы разделены пустой строкой.
 from django.core.management.base import BaseCommand
 
 from content.models import FAQ
 
-# (порядок, вопрос, ответ)
+
 FAQ_ITEMS = [
     (
         1,
@@ -53,8 +50,6 @@ class Command(BaseCommand):
     help = "Обновляет вопросы и ответы FAQ для главной страницы"
 
     def handle(self, *args, **options):
-        # Старые вопросы главной (с пустым полем «для какой страницы») удаляем и создаём заново.
-        # Вопросы для страниц ЕГЭ и ОГЭ остаются как есть.
         FAQ.objects.filter(exam_type="").delete()
         for order, question, answer in FAQ_ITEMS:
             FAQ.objects.create(exam_type="", order=order, question=question, answer=answer)

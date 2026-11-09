@@ -1,7 +1,3 @@
-# Команда подгоняет тестовые данные под макет: python manage.py update_design_data
-#  - пункты тарифов получают переносы строк, как на макете (знак "|" = перенос);
-#  - факты о преподавателе Валерии Владимировне приводятся к тексту макета.
-# Остальные данные не трогает.
 from django.core.management.base import BaseCommand
 
 from content.models import Teacher

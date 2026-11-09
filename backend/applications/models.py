@@ -1,4 +1,3 @@
-# Заявка с сайта: человек оставляет имя и телефон, менеджер связывается сам
 from django.db import models
 
 from courses.models import Tariff

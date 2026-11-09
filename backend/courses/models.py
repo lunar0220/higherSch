@@ -1,5 +1,3 @@
-# Модели курсов, тарифов и обучения (запись на курс, уроки, домашки).
-# Каждый класс = таблица в базе, каждое поле = столбец.
 from django.conf import settings
 from django.db import models
 
@@ -27,7 +25,6 @@ class Course(models.Model):
 
 
 class Tariff(models.Model):
-    # Курс необязателен: тарифы на главной (Стандарт, Про, Про+) общие для всех
     course = models.ForeignKey(
         Course, verbose_name="Курс", on_delete=models.CASCADE,
         related_name="tariffs", null=True, blank=True,
@@ -46,10 +43,8 @@ class Tariff(models.Model):
         return self.name
 
 
-# ===== Обучение (личный кабинет) =====
 
 class Enrollment(models.Model):
-    """Запись ученика на курс. Здесь же хранятся баллы для «траектории»."""
     student = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name="Ученик",
         on_delete=models.CASCADE, related_name="enrollments",
@@ -63,7 +58,7 @@ class Enrollment(models.Model):
     created_at = models.DateTimeField("Дата записи", auto_now_add=True)
 
     class Meta:
-        unique_together = ("student", "course")  # одного ученика нельзя записать на курс дважды
+        unique_together = ("student", "course")
         verbose_name = "Запись на курс"
         verbose_name_plural = "Записи на курсы"
 
@@ -89,7 +84,6 @@ class Lesson(models.Model):
 
 
 class LessonProgress(models.Model):
-    """Отметка «урок пройден». Из этих отметок считается % прохождения курса."""
     student = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Ученик", on_delete=models.CASCADE)
     lesson = models.ForeignKey(Lesson, verbose_name="Урок", on_delete=models.CASCADE, related_name="progress")
     completed_at = models.DateTimeField("Когда пройден", auto_now_add=True)
@@ -104,7 +98,6 @@ class LessonProgress(models.Model):
 
 
 class Homework(models.Model):
-    """Задание к уроку. Тип «Пробный экзамен» нужен, чтобы отличать пробники от обычных домашек."""
 
     class Kind(models.TextChoices):
         HOMEWORK = "homework", "Домашнее задание"
@@ -125,8 +118,6 @@ class Homework(models.Model):
 
 
 class Submission(models.Model):
-    """Ответ ученика на задание. Статус и оценку может менять преподаватель в админке."""
-
     class Status(models.TextChoices):
         DONE = "done", "Выполнено"
         PARTIAL = "partial", "Частично"

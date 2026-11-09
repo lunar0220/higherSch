@@ -4,7 +4,7 @@ from .models import Course, Tariff
 
 
 class TariffSerializer(serializers.ModelSerializer):
-    # Превращаем текст «по строке на пункт» в список для React
+
     features = serializers.SerializerMethodField()
 
     class Meta:

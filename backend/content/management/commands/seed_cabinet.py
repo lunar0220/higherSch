@@ -1,7 +1,3 @@
-# Команда создаёт демо-данные для личного кабинета (ОГЭ): python manage.py seed_cabinet
-# Её можно запускать повторно: уже созданные записи не дублируются.
-#
-# Демо-ученик:  логин student  /  пароль demo12345
 from datetime import date, timedelta
 
 from django.contrib.auth import get_user_model
@@ -12,7 +8,7 @@ from courses.models import Course, Enrollment, Homework, Lesson, LessonProgress,
 
 User = get_user_model()
 
-# Курсы ОГЭ: название, предмет преподавателя, уроки, баллы (было, сейчас, цель)
+
 COURSES = [
     {
         "title": "Математика ОГЭ",
@@ -46,7 +42,7 @@ COURSES = [
     },
 ]
 
-# Вопросы для страницы ОГЭ
+
 OGE_FAQ = [
     (1, "Какие предметы сдают на ОГЭ?",
      "Обязательны русский язык и математика, ещё два предмета ученик выбирает самостоятельно."),
@@ -59,7 +55,6 @@ class Command(BaseCommand):
     help = "Создаёт демо-ученика, курсы ОГЭ, уроки и задания для личного кабинета"
 
     def handle(self, *args, **options):
-        # --- Демо-ученик ---
         student, created = User.objects.get_or_create(
             username="student",
             defaults={"first_name": "Анна", "last_name": "Смирнова", "role": "student", "phone": "+79001234567"},
@@ -83,14 +78,12 @@ class Command(BaseCommand):
                 },
             )
 
-            # --- Запись ученика на курс + баллы для «траектории» ---
             start, current, target = course_data["scores"]
             Enrollment.objects.get_or_create(
                 student=student, course=course,
                 defaults={"start_score": start, "current_score": current, "target_score": target},
             )
 
-            # --- Уроки и задания ---
             lessons = []
             for number, title in enumerate(course_data["lessons"], start=1):
                 lesson, _ = Lesson.objects.get_or_create(
@@ -109,7 +102,6 @@ class Command(BaseCommand):
                 lessons.append(lesson)
 
                 if number == len(course_data["lessons"]):
-                    # Последнее задание курса — пробный экзамен (особый тип задания)
                     Homework.objects.get_or_create(
                         lesson=lesson, title="Пробный экзамен №1",
                         defaults={
@@ -128,11 +120,10 @@ class Command(BaseCommand):
                         },
                     )
 
-            # --- Пройденные уроки (для % прохождения) ---
+
             for lesson in lessons[: course_data["done_lessons"]]:
                 LessonProgress.objects.get_or_create(student=student, lesson=lesson)
 
-            # --- Пара сданных работ, чтобы были видны статусы и оценки ---
             first = Homework.objects.filter(lesson=lessons[0]).first()
             Submission.objects.get_or_create(
                 homework=first, student=student,
@@ -153,7 +144,7 @@ class Command(BaseCommand):
                     },
                 )
 
-        # --- Вопросы для страницы ОГЭ ---
+
         for order, question, answer in OGE_FAQ:
             FAQ.objects.update_or_create(
                 question=question, exam_type="oge",

@@ -1,11 +1,9 @@
-# Админка: здесь преподаватель наполняет курсы, уроки и проверяет домашки.
 from django.contrib import admin
 
 from .models import Course, Enrollment, Homework, Lesson, LessonProgress, Submission, Tariff
 
 
 class LessonInline(admin.TabularInline):
-    """Уроки можно добавлять прямо на странице курса."""
     model = Lesson
     fields = ("order", "title", "video_url")
     extra = 1
@@ -23,7 +21,6 @@ class TariffAdmin(admin.ModelAdmin):
 
 
 class HomeworkInline(admin.TabularInline):
-    """Задания можно добавлять прямо на странице урока."""
     model = Homework
     fields = ("title", "kind", "deadline", "description")
     extra = 1
@@ -50,7 +47,6 @@ class HomeworkAdmin(admin.ModelAdmin):
 
 @admin.register(Submission)
 class SubmissionAdmin(admin.ModelAdmin):
-    # Здесь преподаватель ставит статус («частично»), оценку и комментарий
     list_display = ("homework", "student", "status", "grade", "submitted_at")
     list_filter = ("status", "homework__kind")
 

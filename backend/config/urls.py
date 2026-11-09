@@ -1,4 +1,3 @@
-# Главный файл адресов: какой адрес куда ведёт
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -12,6 +11,5 @@ urlpatterns = [
     path("api/", include("applications.urls")),
 ]
 
-# В разработке Django сам раздаёт загруженные картинки (фото преподавателей)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

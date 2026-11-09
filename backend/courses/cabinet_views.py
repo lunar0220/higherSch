@@ -1,4 +1,3 @@
-# API личного кабинета. Все адреса доступны только вошедшему ученику (IsAuthenticated).
 from datetime import date
 
 from django.shortcuts import get_object_or_404
@@ -10,10 +9,9 @@ from rest_framework.views import APIView
 from .models import Enrollment, Homework, Lesson, LessonProgress, Submission
 
 
-# ---------- Вспомогательные функции ----------
+
 
 def progress_percent(user, course):
-    """Сколько процентов уроков курса ученик уже прошёл."""
     total = course.lessons.count()
     if total == 0:
         return 0
@@ -22,7 +20,6 @@ def progress_percent(user, course):
 
 
 def course_data(user, enrollment):
-    """Данные курса для ученика: прогресс и «траектория» баллов."""
     course = enrollment.course
     return {
         "id": course.id,
@@ -39,7 +36,6 @@ def course_data(user, enrollment):
 
 
 def homework_data(homework, submission):
-    """Задание вместе с ответом ученика. Нет ответа = «не выполнено»."""
     status = submission.status if submission else Submission.Status.NOT_DONE
     return {
         "id": homework.id,
@@ -60,17 +56,14 @@ def homework_data(homework, submission):
 
 
 def lesson_for_student(user, lesson_id):
-    """Находит урок, но только если ученик записан на этот курс. Иначе 404."""
     lesson = get_object_or_404(Lesson.objects.select_related("course"), id=lesson_id)
     if not Enrollment.objects.filter(student=user, course=lesson.course).exists():
         raise NotFound()
     return lesson
 
 
-# ---------- Адреса ----------
 
 class MyCourses(APIView):
-    """GET /api/my/courses/ — курсы ученика с прогрессом."""
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -79,7 +72,6 @@ class MyCourses(APIView):
 
 
 class MyCourseDetail(APIView):
-    """GET /api/my/courses/<id>/ — один курс со списком уроков."""
     permission_classes = [IsAuthenticated]
 
     def get(self, request, course_id):
@@ -107,7 +99,6 @@ class MyCourseDetail(APIView):
 
 
 class LessonDetail(APIView):
-    """GET /api/lessons/<id>/ — урок: видео, конспект и задания."""
     permission_classes = [IsAuthenticated]
 
     def get(self, request, lesson_id):
@@ -134,7 +125,6 @@ class LessonDetail(APIView):
 
 
 class LessonComplete(APIView):
-    """POST /api/lessons/<id>/complete/ — отметить урок пройденным (или снять отметку)."""
     permission_classes = [IsAuthenticated]
 
     def post(self, request, lesson_id):
@@ -148,7 +138,6 @@ class LessonComplete(APIView):
 
 
 class MyHomework(APIView):
-    """GET /api/my/homework/ — все задания ученика (домашки и пробники)."""
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -159,13 +148,11 @@ class MyHomework(APIView):
         )
         submissions = {s.homework_id: s for s in Submission.objects.filter(student=request.user)}
         data = [homework_data(h, submissions.get(h.id)) for h in homeworks]
-        # Сначала ближайшие по сроку, задания без срока в конце
         data.sort(key=lambda item: (item["deadline"] is None, item["deadline"] or date.max))
         return Response(data)
 
 
 class SubmitHomework(APIView):
-    """POST /api/homework/<id>/submit/ — сдать ответ на задание."""
     permission_classes = [IsAuthenticated]
 
     def post(self, request, homework_id):
@@ -177,7 +164,6 @@ class SubmitHomework(APIView):
         if not answer:
             return Response({"answer": ["Напишите ответ"]}, status=400)
 
-        # Если ответ уже был, он обновится; статус снова становится «Выполнено»
         submission, _ = Submission.objects.update_or_create(
             homework=homework, student=request.user,
             defaults={"answer": answer, "status": Submission.Status.DONE},
