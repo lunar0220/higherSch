@@ -1,5 +1,3 @@
-// Главный файл приложения. Здесь описано, какой адрес какую страницу открывает.
-// Шапка и подвал стоят вне Routes, поэтому видны на всех страницах.
 import { Routes, Route } from "react-router-dom";
 
 import Header from "./components/Header";
@@ -27,12 +25,9 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
 
-          {/* Страница ОГЭ готова. Страница ЕГЭ пока в разработке:
-              чтобы включить её, замените ComingSoon на <Exam key="ege" exam="ege" /> */}
           <Route path="/oge" element={<Exam key="oge" exam="oge" />} />
           <Route path="/ege" element={<ComingSoon title="ЕГЭ" />} />
 
-          {/* Личный кабинет: пускаем только вошедших (ProtectedRoute) */}
           <Route
             path="/cabinet"
             element={
@@ -48,9 +43,7 @@ export default function App() {
             <Route path="homework" element={<Homework />} />
           </Route>
 
-          {/* Разделы, которые ещё в разработке */}
           <Route path="/about" element={<ComingSoon title="О нас" />} />
-          {/* "*" — любой другой адрес */}
           <Route path="*" element={<ComingSoon title="Раздел" />} />
         </Routes>
       </main>

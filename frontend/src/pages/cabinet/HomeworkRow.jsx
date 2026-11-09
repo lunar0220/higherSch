@@ -1,4 +1,3 @@
-// Одна строка в списке заданий: название, тип, срок, статус и оценка.
 import { Link } from "react-router-dom";
 import { formatDate } from "./helpers";
 

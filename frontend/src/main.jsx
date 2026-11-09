@@ -1,5 +1,4 @@
-// Точка входа: запускаем React, включаем маршрутизацию (BrowserRouter)
-// и запоминание того, кто вошёл (AuthProvider).
+
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";

@@ -1,6 +1,3 @@
-// Страница экзамена (ОГЭ или ЕГЭ): описание, предметы, как проходит подготовка,
-// преподаватели, цены и частые вопросы. Одна страница на оба экзамена:
-// какой именно, зависит от параметра exam ("oge" или "ege").
 import { useEffect, useState } from "react";
 
 import api from "../api/client";
@@ -35,7 +32,6 @@ export default function Exam({ exam }) {
   const [error, setError] = useState(false);
   const [modal, setModal] = useState({ open: false, tariff: null });
 
-  // Загружаем данные для выбранного экзамена
   useEffect(() => {
     setLoading(true);
     Promise.all([

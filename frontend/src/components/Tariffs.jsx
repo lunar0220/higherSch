@@ -1,10 +1,7 @@
-// Блок «Выбирай удобный формат подготовки»: три тарифа из базы (/api/tariffs/).
-// Цвет карточки зависит от порядкового номера: тёмная, голубая, розовая.
 import { Fragment } from "react";
 
 const COLORS = ["navy", "blue", "pink"];
 
-// В тексте пункта знак "|" означает перенос строки: «Диагностика|и персональный план»
 function renderLines(text) {
   return text.split("|").map((part, i) => (
     <Fragment key={i}>

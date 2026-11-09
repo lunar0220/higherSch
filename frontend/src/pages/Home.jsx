@@ -1,4 +1,3 @@
-// Главная страница. Загружает данные с бэкенда и собирает блоки по порядку, как в макете.
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -15,11 +14,9 @@ export default function Home() {
   const [data, setData] = useState({ tariffs: [], teachers: [], faq: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  // Состояние формы заявки: открыта ли и какой тариф выбран
   const [modal, setModal] = useState({ open: false, tariff: null });
   const { hash } = useLocation();
 
-  // Один раз при открытии страницы запрашиваем все данные у бэкенда
   useEffect(() => {
     Promise.all([api.get("/tariffs/"), api.get("/teachers/"), api.get("/faq/")])
       .then(([tariffs, teachers, faq]) => {
@@ -29,7 +26,6 @@ export default function Home() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Переход по ссылкам из подвала (/#faq, /#tariffs…): прокручиваем к нужному блоку
   useEffect(() => {
     if (!loading && hash) {
       document.querySelector(hash)?.scrollIntoView();

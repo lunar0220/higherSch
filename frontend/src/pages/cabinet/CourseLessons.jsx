@@ -1,11 +1,10 @@
-// Страница одного курса: полоска прогресса и список его уроков.
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import api from "../../api/client";
 
 export default function CourseLessons() {
-  const { courseId } = useParams(); // номер курса берём из адреса /cabinet/courses/:courseId
+  const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [error, setError] = useState(false);
 

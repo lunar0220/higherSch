@@ -1,14 +1,10 @@
-// Блок «Команда, с которой не страшно».
-// Слева переключатель ЕГЭ/ОГЭ и список предметов, справа информация о выбранном преподавателе.
 import { useState } from "react";
 
 export default function Team({ teachers, onApply, initialExam = "ege" }) {
-  const [exam, setExam] = useState(initialExam); // выбранный экзамен
-  const [selectedId, setSelectedId] = useState(null); // выбранный преподаватель
+  const [exam, setExam] = useState(initialExam);
+  const [selectedId, setSelectedId] = useState(null); 
 
-  // Оставляем только преподавателей выбранного экзамена
   const list = teachers.filter((t) => t.exam_types.includes(exam));
-  // Если никто не выбран, показываем преподавателя английского (как в макете) или первого
   const current =
     list.find((t) => t.id === selectedId) ||
     list.find((t) => t.subject === "Английский язык") ||
@@ -45,7 +41,6 @@ export default function Team({ teachers, onApply, initialExam = "ege" }) {
 
         {current && (
           <>
-            {/* Если фото нет, рисуем серый силуэт, как в макете */}
             {current.photo ? (
               <img className="team__avatar team__photo" src={current.photo} alt={current.name} />
             ) : (

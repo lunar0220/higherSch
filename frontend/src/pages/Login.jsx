@@ -1,5 +1,3 @@
-// Страница входа. Слева вход по логину и паролю, справа «Я тут впервые»:
-// две кнопки открывают форму заявки (узнать о платформе / оплатить обучение).
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
@@ -15,15 +13,13 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [modal, setModal] = useState(null); // null или {title, kindNote}
+  const [modal, setModal] = useState(null);
   const [tariffs, setTariffs] = useState([]);
 
-  // Тарифы нужны для выпадающего списка в форме заявки
   useEffect(() => {
     api.get("/tariffs/").then((response) => setTariffs(response.data)).catch(() => {});
   }, []);
 
-  // Если уже вошли, сразу отправляем в кабинет
   if (user) return <Navigate to="/cabinet" replace />;
 
   async function handleSubmit(event) {

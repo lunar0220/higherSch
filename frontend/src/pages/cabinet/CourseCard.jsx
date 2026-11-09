@@ -1,5 +1,3 @@
-// Карточка курса: название, полоска прогресса и «траектория» баллов.
-// Используется на главной кабинета и на странице «Мои курсы».
 import { Link } from "react-router-dom";
 
 export default function CourseCard({ course, color }) {
@@ -15,7 +13,6 @@ export default function CourseCard({ course, color }) {
         </div>
       </div>
 
-      {/* Траектория: балл в начале, сейчас и желаемый */}
       <div className="trajectory">
         <div><span>Было</span><strong>{course.start_score ?? "—"}</strong></div>
         <div><span>Сейчас</span><strong>{course.current_score ?? "—"}</strong></div>

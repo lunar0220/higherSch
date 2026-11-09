@@ -1,5 +1,3 @@
-// Общая рамка личного кабинета: приветствие, меню кабинета и место для страницы.
-// <Outlet /> — сюда React Router подставляет нужную страницу кабинета.
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 

@@ -1,5 +1,3 @@
-// Первый экран: заголовок, подзаголовок, кнопка и фото.
-// onApply — функция, которая открывает форму заявки (приходит из Home).
 export default function Hero({ onApply }) {
   return (
     <section className="hero container">

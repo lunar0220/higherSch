@@ -1,4 +1,3 @@
-// «Мои курсы»: список курсов ученика. Клик по курсу открывает его уроки.
 import { useEffect, useState } from "react";
 
 import api from "../../api/client";

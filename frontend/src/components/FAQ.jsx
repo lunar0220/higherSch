@@ -1,5 +1,3 @@
-// Блок «Часто задаваемые вопросы». Клик по вопросу раскрывает ответ.
-// openId хранит id раскрытого вопроса (или null, если все закрыты).
 import { useState } from "react";
 
 export default function FAQ({ items }) {
@@ -21,7 +19,6 @@ export default function FAQ({ items }) {
 
             {openId === item.id && (
               <div className="faq__answer">
-                {/* Ответ делим на абзацы по пустой строке; первый абзац — главная мысль */}
                 {item.answer.split("\n\n").map((paragraph, i) => (
                   <p key={i} className={i === 0 ? "faq__lead" : ""}>{paragraph}</p>
                 ))}

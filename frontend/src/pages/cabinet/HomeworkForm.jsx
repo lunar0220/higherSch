@@ -1,5 +1,3 @@
-// Карточка задания на странице урока: условие, статус, оценка, комментарий преподавателя
-// и форма, в которую ученик пишет ответ.
 import { useState } from "react";
 
 import api from "../../api/client";
@@ -7,7 +5,7 @@ import { formatDate } from "./helpers";
 
 export default function HomeworkForm({ homework, onSaved }) {
   const [answer, setAnswer] = useState(homework.answer);
-  const [status, setStatus] = useState("idle"); // idle | sending | saved
+  const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
 
   async function handleSubmit(event) {
@@ -16,7 +14,7 @@ export default function HomeworkForm({ homework, onSaved }) {
     setError("");
     try {
       const response = await api.post(`/homework/${homework.id}/submit/`, { answer });
-      onSaved(response.data); // сообщаем странице урока, что задание обновилось
+      onSaved(response.data);
       setStatus("saved");
     } catch (e) {
       setError(e.response?.data?.answer?.[0] || "Не получилось отправить. Попробуйте ещё раз.");

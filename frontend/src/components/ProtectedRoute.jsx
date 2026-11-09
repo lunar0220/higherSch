@@ -1,4 +1,3 @@
-// Защита страниц кабинета: если ученик не вошёл, отправляем его на страницу входа.
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 

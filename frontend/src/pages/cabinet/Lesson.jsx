@@ -1,4 +1,3 @@
-// Страница урока: название, описание, видео, конспект и задания.
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -7,7 +6,7 @@ import HomeworkForm from "./HomeworkForm";
 import { toEmbedUrl } from "./helpers";
 
 export default function Lesson() {
-  const { lessonId } = useParams(); // номер урока берём из адреса /cabinet/lessons/:lessonId
+  const { lessonId } = useParams();
   const [lesson, setLesson] = useState(null);
   const [error, setError] = useState(false);
 
@@ -20,13 +19,11 @@ export default function Lesson() {
   if (error) return <p className="status">Урок не найден.</p>;
   if (!lesson) return <p className="status">Загружаем…</p>;
 
-  // «Отметить пройденным» / «Снять отметку»: от этого зависит % прохождения курса
   async function toggleCompleted() {
     const response = await api.post(`/lessons/${lessonId}/complete/`, { completed: !lesson.completed });
     setLesson({ ...lesson, completed: response.data.completed });
   }
 
-  // Когда ученик сдал задание, подставляем обновлённые данные в список
   function updateHomework(updated) {
     setLesson({
       ...lesson,

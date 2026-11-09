@@ -1,4 +1,3 @@
-// Шапка сайта: логотип, меню и кнопка входа (после входа она ведёт в кабинет).
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -8,7 +7,6 @@ export default function Header() {
   return (
     <header className="header">
       <Link to="/" className="header__logo">
-        {/* Картинки лежат в папке public/images */}
         <img src="/images/logo-dark.png" alt="Выше" />
       </Link>
 

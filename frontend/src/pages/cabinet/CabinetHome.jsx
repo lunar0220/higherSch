@@ -1,4 +1,3 @@
-// Главная кабинета: мои курсы с прогрессом и траекторией, ближайшие задания и пробники.
 import { useEffect, useState } from "react";
 
 import api from "../../api/client";
@@ -26,9 +25,7 @@ export default function CabinetHome() {
   if (loading) return <p className="status">Загружаем…</p>;
   if (error) return <p className="status">Не удалось загрузить данные кабинета.</p>;
 
-  // Ближайшие задания: ещё не выполненные домашки
   const upcoming = homework.filter((h) => h.kind === "homework" && h.status === "not_done").slice(0, 4);
-  // Пробники: задания особого типа
   const mocks = homework.filter((h) => h.kind === "mock");
 
   return (

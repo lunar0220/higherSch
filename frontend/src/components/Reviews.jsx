@@ -1,4 +1,3 @@
-// Блок с отзывами из базы (/api/reviews/). Если отзывов нет, блок не показывается.
 export default function Reviews({ reviews }) {
   if (reviews.length === 0) return null;
 

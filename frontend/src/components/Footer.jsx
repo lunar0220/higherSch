@@ -1,5 +1,3 @@
-// Подвал сайта: логотип и три колонки со ссылками и контактами.
-// Ссылки вида "/#faq" ведут к блоку на главной странице (прокрутку делает Home.jsx).
 import { Link } from "react-router-dom";
 
 export default function Footer() {
