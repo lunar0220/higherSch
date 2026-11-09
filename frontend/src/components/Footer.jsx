@@ -6,22 +6,25 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="container">
-        {/* Светлая версия логотипа с описанием: подвал тёмный */}
-        <img className="footer__logo" src="/images/logo-light-desc.png" alt="Выше: онлайн школа по подготовке к ОГЭ/ЕГЭ" />
+        <img
+          className="footer__logo"
+          src="/images/logo-light-desc.png"
+          alt="Выше: онлайн школа по подготовке к ОГЭ/ЕГЭ"
+        />
 
         <div className="footer__columns">
-          <div className="footer__column">
+          <div className="footer__col">
             <h3 className="footer__title">О компании</h3>
             <ul>
               <li><Link to="/about">О Выше</Link></li>
-              <li><Link to="/#reviews">Отзывы</Link></li>
+              <li><Link to="/soon">Отзывы</Link></li>
               <li><Link to="/#faq">Вопросы</Link></li>
               <li><Link to="/soon">Вакансии</Link></li>
               <li><Link to="/soon">Сведения об образовательной организации</Link></li>
             </ul>
           </div>
 
-          <div className="footer__column">
+          <div className="footer__col">
             <h3 className="footer__title">Обучение</h3>
             <ul>
               <li><Link to="/oge">ОГЭ</Link></li>
@@ -31,7 +34,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="footer__column">
+          <div className="footer__col">
             <h3 className="footer__title">Контакты</h3>
             <ul>
               <li>+7 (900) 123-45-67</li>

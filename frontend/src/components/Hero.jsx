@@ -1,17 +1,16 @@
-// Первый экран: заголовок, подзаголовок, кнопка и иллюстрация.
+// Первый экран: заголовок, подзаголовок, кнопка и фото.
 // onApply — функция, которая открывает форму заявки (приходит из Home).
 export default function Hero({ onApply }) {
   return (
     <section className="hero container">
-      <div>
+      <div className="hero__text">
         <h1 className="title title--blue">Твой следующий уровень</h1>
         <p className="hero__subtitle">Поднимаемся вместе. Шаг за шагом — ещё выше.</p>
-        <button className="btn btn--pink btn--big" onClick={() => onApply(null)}>
+        <button className="hero__btn" onClick={() => onApply(null)}>
           Занять место
         </button>
       </div>
-      {/* Картинка лежит в frontend/public/images */}
-      <img className="illustration" src="/images/hero-stairs.svg" alt="Лестница вверх со стрелкой" />
+      <img className="hero__photo" src="/images/hero-photo.jpg" alt="" />
     </section>
   );
 }

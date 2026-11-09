@@ -1,9 +1,10 @@
-// Шапка сайта: логотип, меню и кнопка «Войти».
-// NavLink — ссылка, которая не перезагружает страницу
-// и сама подсвечивает текущий раздел (класс "active").
+// Шапка сайта: логотип, меню и кнопка входа (после входа она ведёт в кабинет).
 import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
+  const { user } = useAuth();
+
   return (
     <header className="header">
       <Link to="/" className="header__logo">
@@ -17,7 +18,13 @@ export default function Header() {
         <NavLink to="/about">О нас</NavLink>
       </nav>
 
-      <Link to="/login" className="btn btn--blue">Войти</Link>
+      <Link to={user ? "/cabinet" : "/login"} className="header__login">
+        <svg viewBox="0 0 24 22" fill="none" stroke="#17293e" strokeWidth="2.6" strokeLinejoin="round">
+          <path d="M9 1.5H5.2A2.7 2.7 0 0 0 2.5 4.2v13.6a2.7 2.7 0 0 0 2.7 2.7H9" />
+          <path d="M6.5 11H22.5M17.5 5.8 22.5 11l-5 5.2" />
+        </svg>
+        <span>{user ? "Кабинет" : "Войти"}</span>
+      </Link>
     </header>
   );
 }

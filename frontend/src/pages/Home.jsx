@@ -1,4 +1,4 @@
-// Главная страница. Загружает данные с бэкенда и собирает блоки по порядку, как в дизайне.
+// Главная страница. Загружает данные с бэкенда и собирает блоки по порядку, как в макете.
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -8,12 +8,11 @@ import Intro from "../components/Intro";
 import HowItWorks from "../components/HowItWorks";
 import Tariffs from "../components/Tariffs";
 import Team from "../components/Team";
-import Reviews from "../components/Reviews";
 import FAQ from "../components/FAQ";
 import ApplicationModal from "../components/ApplicationModal";
 
 export default function Home() {
-  const [data, setData] = useState({ tariffs: [], teachers: [], reviews: [], faq: [] });
+  const [data, setData] = useState({ tariffs: [], teachers: [], faq: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   // Состояние формы заявки: открыта ли и какой тариф выбран
@@ -22,19 +21,9 @@ export default function Home() {
 
   // Один раз при открытии страницы запрашиваем все данные у бэкенда
   useEffect(() => {
-    Promise.all([
-      api.get("/tariffs/"),
-      api.get("/teachers/"),
-      api.get("/reviews/"),
-      api.get("/faq/"),
-    ])
-      .then(([tariffs, teachers, reviews, faq]) => {
-        setData({
-          tariffs: tariffs.data,
-          teachers: teachers.data,
-          reviews: reviews.data,
-          faq: faq.data,
-        });
+    Promise.all([api.get("/tariffs/"), api.get("/teachers/"), api.get("/faq/")])
+      .then(([tariffs, teachers, faq]) => {
+        setData({ tariffs: tariffs.data, teachers: teachers.data, faq: faq.data });
       })
       .catch(() => setError(true))
       .finally(() => setLoading(false));
@@ -55,16 +44,15 @@ export default function Home() {
       <Intro />
       <HowItWorks />
 
-      {loading && <p className="container status">Загружаем…</p>}
+      {loading && <p className="status container">Загружаем…</p>}
       {error && (
-        <p className="container status">Не удалось загрузить данные. Проверьте, что бэкенд запущен.</p>
+        <p className="status container">Не удалось загрузить данные. Проверьте, что бэкенд запущен.</p>
       )}
 
       {!loading && !error && (
         <>
           <Tariffs tariffs={data.tariffs} onApply={openForm} />
           <Team teachers={data.teachers} onApply={openForm} />
-          <Reviews reviews={data.reviews} />
           <FAQ items={data.faq} />
         </>
       )}

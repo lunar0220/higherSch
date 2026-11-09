@@ -6,7 +6,7 @@ export default function FAQ({ items }) {
   const [openId, setOpenId] = useState(null);
 
   return (
-    <section id="faq" className="section container">
+    <section id="faq" className="faq-section container">
       <h2 className="title title--navy">Часто задаваемые вопросы</h2>
 
       <div className="faq">
@@ -17,12 +17,11 @@ export default function FAQ({ items }) {
               onClick={() => setOpenId(openId === item.id ? null : item.id)}
             >
               {item.question}
-              <span>{openId === item.id ? "−" : "+"}</span>
             </button>
 
             {openId === item.id && (
               <div className="faq__answer">
-                {/* Ответ разбиваем на абзацы по пустой строке; первый абзац — главная мысль */}
+                {/* Ответ делим на абзацы по пустой строке; первый абзац — главная мысль */}
                 {item.answer.split("\n\n").map((paragraph, i) => (
                   <p key={i} className={i === 0 ? "faq__lead" : ""}>{paragraph}</p>
                 ))}

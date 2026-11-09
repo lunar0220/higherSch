@@ -1,23 +1,29 @@
-// Блок «Как проходит обучение?». Вкладки переключают описание.
+// Блок «Как проходит обучение?». Вкладки переключают описание и фото.
 // useState хранит номер выбранной вкладки; при клике номер меняется и React перерисовывает блок.
 import { useState } from "react";
 
-// Тексты можно менять прямо здесь
+// Тексты и фото можно менять прямо здесь. Фото лежат в папке public/images/how
 const STEPS = [
-  { name: "Теория", text: "Короткие видеоуроки и конспекты: только то, что нужно для экзамена." },
-  { name: "Практика", text: "На онлайн-вебинаре практикуешься вместе с преподавателем в рабочей тетради." },
-  { name: "Тесты", text: "Задания с автопроверкой: сразу видишь результат и ошибки." },
-  { name: "ДЗ", text: "Домашние задания по каждой теме, куратор следит за выполнением." },
-  { name: "Пробники", text: "Пробные экзамены в формате настоящего ЕГЭ или ОГЭ с разбором ошибок." },
-  { name: "Зачёты", text: "Проверяем, что тема усвоена, прежде чем идти дальше." },
+  { name: "Теория", image: "/images/how/theory.jpg",
+    text: "Короткие видеоуроки и конспекты: только то, что нужно для экзамена." },
+  { name: "Практика", image: "/images/how/practice.jpg",
+    text: "На онлайн-вебинаре, практикуешься вместе с преподавателем в рабочей тетради." },
+  { name: "Тесты", image: "/images/how/tests.jpg",
+    text: "Задания с автопроверкой: сразу видишь результат и ошибки." },
+  { name: "ДЗ", image: "/images/how/homework.jpg",
+    text: "Домашние задания по каждой теме, куратор следит за выполнением." },
+  { name: "Пробники", image: "/images/how/mocks.jpg",
+    text: "Пробные экзамены в формате настоящего ЕГЭ или ОГЭ с разбором ошибок." },
+  { name: "Зачёты", image: "/images/how/credits.jpg",
+    text: "Проверяем, что тема усвоена, прежде чем идти дальше." },
 ];
 
 export default function HowItWorks() {
   const [active, setActive] = useState(1);
 
   return (
-    <section className="section container how">
-      <h2 className="title title--navy">Как проходит обучение?</h2>
+    <section className="how container">
+      <h2 className="title title--navy how__title">Как проходит обучение?</h2>
 
       <div className="how__tabs">
         {STEPS.map((step, i) => (
@@ -32,7 +38,7 @@ export default function HowItWorks() {
       </div>
 
       <p className="how__text">{STEPS[active].text}</p>
-      <img className="illustration how__image" src="/images/learning.svg" alt="Онлайн-занятие: ноутбук и рабочая тетрадь" />
+      <img className="how__image" src={STEPS[active].image} alt={STEPS[active].name} />
     </section>
   );
 }

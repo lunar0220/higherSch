@@ -1,5 +1,7 @@
 // Всплывающая форма заявки. Отправляет данные на бэкенд: POST /api/applications/.
 // Менеджер потом видит заявку в админке Django (раздел «Заявки»).
+// title — заголовок окна, kindNote — пометка, которая добавится к комментарию
+// (например, «Хочу оплатить обучение»).
 import { useState } from "react";
 import api from "../api/client";
 
@@ -19,7 +21,13 @@ function normalizePhone(raw) {
   return null;
 }
 
-export default function ApplicationModal({ tariffs, initialTariff, onClose }) {
+export default function ApplicationModal({
+  tariffs,
+  initialTariff,
+  onClose,
+  title = "Занять место",
+  kindNote = "",
+}) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [comment, setComment] = useState("");
@@ -47,7 +55,7 @@ export default function ApplicationModal({ tariffs, initialTariff, onClose }) {
       await api.post("/applications/", {
         name: name.trim(),
         phone: cleanPhone,
-        comment,
+        comment: [kindNote, comment].filter(Boolean).join(". "),
         tariff: tariffId || null,
       });
       setStatus("done");
@@ -77,7 +85,7 @@ export default function ApplicationModal({ tariffs, initialTariff, onClose }) {
           </div>
         ) : (
           <form onSubmit={handleSubmit} noValidate>
-            <h2>Занять место</h2>
+            <h2>{title}</h2>
 
             <label className="field">
               Имя
