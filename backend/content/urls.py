@@ -1,4 +1,3 @@
-# Адреса API для контента
 from django.urls import path
 
 from .views import FAQList, ReviewList, TeacherList

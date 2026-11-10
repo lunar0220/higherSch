@@ -1,11 +1,9 @@
-# Сериализатор превращает объект из базы в JSON, который понимает React
 from rest_framework import serializers
 
 from .models import FAQ, Review, Teacher
 
 
 class TeacherSerializer(serializers.ModelSerializer):
-    # Факты хранятся текстом (по строке на факт), а React ждёт список
     facts = serializers.SerializerMethodField()
 
     class Meta:
