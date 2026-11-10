@@ -162,7 +162,7 @@ class SubmitHomework(APIView):
 
         answer = str(request.data.get("answer", "")).strip()
         if not answer:
-            return Response({"answer": ["Напишите ответ"]}, status=400)
+            return Response({"answer": ["Нaпишите ответ"]}, status=400)
 
         submission, _ = Submission.objects.update_or_create(
             homework=homework, student=request.user,
